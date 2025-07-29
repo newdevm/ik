@@ -1,0 +1,406 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intia-Centre - Over 40 Years of Travel</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-image: url('./img/background.gif');
+            background-size: repeat;
+            background-attachment: fixed;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .left-sidebar {
+            width: 250px;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            position: sticky;
+            top: 20px;
+            height: fit-content;
+            border-radius: 10px;
+        }
+
+        .left-sidebar ul {
+            list-style: none;
+        }
+
+        .left-sidebar ul li {
+            margin: 15px 0;
+        }
+
+        .left-sidebar ul li a {
+            text-decoration: none;
+            color: #0066cc;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .left-sidebar ul li a:hover {
+            color: #ff6200;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 0 20px;
+        }
+
+        .right-sidebar {
+            width: 250px;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            position: sticky;
+            top: 20px;
+            height: fit-content;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .right-sidebar img {
+            max-width: 100%;
+            border-radius: 8px;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 10px 20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .logo img {
+            max-width: 150px;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 50px 20px;
+            background: rgba(255, 255, 255, 0.85);
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .hero h1 {
+            font-size: 2.5em;
+            color: #0066cc;
+            margin-bottom: 10px;
+        }
+
+        .carousel {
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin: 20px auto;
+        }
+
+        .carousel-track {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .carousel-item {
+            min-width: 200px;
+            margin: 10px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .carousel-item img {
+            max-width: 100%;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .carousel-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #0066cc;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 50%;
+            font-size: 1.2em;
+            z-index: 10;
+        }
+
+        .prev {
+            left: 10px;
+        }
+
+        .next {
+            right: 10px;
+        }
+
+        .content {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .content h2 {
+            color: #0066cc;
+            margin-bottom: 15px;
+        }
+
+        footer {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+        }
+
+        footer p {
+            margin: 5px 0;
+        }
+
+        footer a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: #ff6200;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .left-sidebar, .right-sidebar {
+                width: 100%;
+                position: static;
+                margin-bottom: 20px;
+            }
+
+            .main-content {
+                padding: 0;
+            }
+
+            .hero h1 {
+                font-size: 1.8em;
+            }
+
+            .carousel-item {
+                min-width: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left-sidebar">
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#flightprices">Flight Prices</a></li>
+                <li><a href="#package">Flight and Hotel Package</a></li>
+                <li><a href="#aroundtheworld">Around the World</a></li>
+                <li><a href="#thailand">Thailand</a></li>
+                <li><a href="#india">India</a></li>
+                <li><a href="#traveltips">Travel Tips for India</a></li>
+                <li><a href="#nepal">Nepal</a></li>
+                <li><a href="#srilanka">Sri Lanka</a></li>
+                <li><a href="#indonesia">Indonesia</a></li>
+                <li><a href="#maldives">Maldives</a></li>
+                <li><a href="#africa">Africa</a></li>
+                <li><a href="#railpass">Japan Rail Pass</a></li>
+                <li><a href="#inquiry">Inquiry/Offer Form</a></li>
+                <li><a href="#visaforms">Visa Forms</a></li>
+                <li><a href="#paymentmethods">Payment Methods</a></li>
+                <li><a href="#terms">Terms and Conditions</a></li>
+                <li><a href="#map">Intia-Centre on Map</a></li>
+                <li><a href="#book">Order Mahatma Gandhi Book</a></li>
+            </ul>
+        </div>
+        <div class="main-content">
+            <header>
+                <div class="">
+                    <img src="./img/otsikko_keski.gif" alt="Intia-Centre Logo">
+                    <button id="langToggle" style="margin-left: 20px; padding: 5px 10px; cursor: pointer;">Vaihda suomeksi</button>
+                </div>
+            </header>
+            <div class="hero">
+                <h1>Intia-Centre - Over 40 Years of Travel</h1>
+                <p>Daily departures to India, Thailand, Malaysia, the Caribbean, Spain, and over 900 destinations!</p>
+                <p>Pay after your trip - 2 months interest-free or longer payment terms.</p>
+            </div>
+            <div class="content">
+                <h2>Popular Destinations</h2>
+                <div class="carousel">
+                    <button class="carousel-button prev">&#10094;</button>
+                    <div class="carousel-track">
+                        <div class="carousel-item">
+                            <img src="./img/Amsterdam.jpg" alt="Amsterdam">
+                            Amsterdam/Paris<br>Ask about today's deals
+                        </div>
+                        <div class="carousel-item">
+                            <img src="./img/Malaga.jpg" alt="Malaga">
+                            Malaga
+                        </div>
+                        <div class="carousel-item">
+                            <img src="./img/Dubai.jpg" alt="Dubai">
+                            Dubai
+                        </div>
+                        <div class="carousel-item">
+                            <img src="./img/NewYork.jpg" alt="New York">
+                            New York
+                        </div>
+                        <div class="carousel-item">
+                            <img src="./img/Bangkok.jpg" alt="Bangkok">
+                            Bangkok
+                        </div>
+                        <div class="carousel-item">
+                            <img src="./img/Singapore.jpg" alt="Singapore">
+                            Singapore
+                        </div>
+                        <div class="carousel-item">
+                            <img src="./img/India.jpg" alt="India">
+                            India
+                        </div>
+                        <div class="carousel-item">
+                            <img src="./img/Bali.jpg" alt="Bali">
+                            Bali
+                        </div>
+                        <div class="carousel-item">
+                            <img src="./img/Vietnam.jpg" alt="Vietnam">
+                            Vietnam
+                        </div>
+                        <div class="carousel-item">
+                            <img src="./img/Havana.jpg" alt="Havana">
+                            Havana
+                        </div>
+                        <div class="carousel-item">
+                            <img src="./img/Australia.jpg" alt="Australia">
+                            Australia
+                        </div>
+                        <div class="carousel-item">
+                            <img src="./img/NewZealand.jpg" alt="New Zealand">
+                            New Zealand
+                        </div>
+                    </div>
+                    <button class="carousel-button next">&#10095;</button>
+                </div>
+                <p>Flight and hotel packages worldwide. Ask about today's offer. Daily departures. Trip duration can be your preferred time 1-365 days.</p>
+                <p><a href="#inquiry">More Destinations</a></p>
+            </div>
+            <footer>
+                <p>Book trips by phone: <strong>09-680 3180</strong></p>
+                <p>Email: <a href="mailto:sales@intiakeskus.fi">sales@intiakeskus.fi</a></p>
+                <p>Check your spam folder for emails.</p>
+                <p><a href="https://facebook.com">Facebook</a></p>
+            </footer>
+        </div>
+        <div class="right-sidebar">
+            <img src="./img/patsas.jpg" alt="Krishna">
+            <p>Krishna</p>
+        </div>
+    </div>
+    <script>
+        const track = document.querySelector('.carousel-track');
+        const items = document.querySelectorAll('.carousel-item');
+        const prevButton = document.querySelector('.prev');
+        const nextButton = document.querySelector('.next');
+        let currentIndex = 0;
+        const itemWidth = items[0].getBoundingClientRect().width + 20;
+
+        function updateCarousel() {
+            track.style.transform = `translateX(-${currentIndex * itemWidth}px)`;
+        }
+
+        nextButton.addEventListener('click', () => {
+            if (currentIndex < items.length - 3) {
+                currentIndex++;
+                updateCarousel();
+            }
+        });
+
+        prevButton.addEventListener('click', () => {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateCarousel();
+            }
+        });
+
+        // Smooth scrolling for nav links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = document.querySelector(anchor.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Language switcher
+        document.getElementById('langToggle').addEventListener('click', () => {
+            window.location.href = 'index.html';
+        });
+    </script>
