@@ -37,7 +37,47 @@
         }
         return gk_fileData[filename] || "";
         }
-        </script><!DOCTYPE html>
+        </script><script type="text/javascript">
+    var gk_isXlsx = false;
+    var gk_xlsxFileLookup = {};
+    var gk_fileData = {};
+    function filledCell(cell) {
+      return cell !== '' && cell != null;
+    }
+    function loadFileData(filename) {
+    if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+        try {
+            var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+            var firstSheetName = workbook.SheetNames[0];
+            var worksheet = workbook.Sheets[firstSheetName];
+
+            // Convert sheet to JSON to filter blank rows
+            var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+            // Filter out blank rows (rows where all cells are empty, null, or undefined)
+            var filteredData = jsonData.filter(row => row.some(filledCell));
+
+            // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+            var headerRowIndex = filteredData.findIndex((row, index) =>
+              row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+            );
+            // Fallback
+            if (headerRowIndex === -1 || headerRowIndex > 25) {
+              headerRowIndex = 0;
+            }
+
+            // Convert filtered JSON back to CSV
+            var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+            csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+            return csv;
+        } catch (e) {
+            console.error(e);
+            return "";
+        }
+    }
+    return gk_fileData[filename] || "";
+    }
+</script>
+<!DOCTYPE html>
 <html lang="fi">
 <head>
     <meta charset="UTF-8">
@@ -83,6 +123,7 @@
 
         .left-sidebar ul li {
             margin: 15px 0;
+            position: relative; /* For submenu positioning */
         }
 
         .left-sidebar ul li a {
@@ -90,10 +131,38 @@
             color: #0066cc;
             font-weight: bold;
             transition: color 0.3s;
+            display: block; /* Ensure the entire area is clickable */
         }
 
         .left-sidebar ul li a:hover {
             color: #ff6200;
+        }
+
+        /* Submenu styles */
+        .left-sidebar ul ul {
+            display: none; /* Hidden by default */
+            position: absolute;
+            left: 100%; /* Position to the right of the parent */
+            top: 0;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            min-width: 200px;
+            z-index: 10;
+        }
+
+        .left-sidebar ul li:hover > ul {
+            display: block; /* Show submenu on hover */
+        }
+
+        .left-sidebar ul ul li {
+            margin: 0;
+            padding: 5px 10px;
+        }
+
+        .left-sidebar ul ul li a {
+            font-weight: normal; /* Differentiate from parent links */
+            padding: 5px;
         }
 
         .main-content {
@@ -251,6 +320,21 @@
             .carousel-item {
                 min-width: 150px;
             }
+
+            /* Adjust submenu for mobile */
+            .left-sidebar ul ul {
+                position: static;
+                width: 100%;
+                box-shadow: none;
+            }
+
+            .left-sidebar ul li:hover > ul {
+                display: none; /* Disable hover on mobile */
+            }
+
+            .left-sidebar ul li.active > ul {
+                display: block; /* Show on click for mobile */
+            }
         }
     </style>
 </head>
@@ -263,7 +347,33 @@
                 <li><a href="#paketit">Lento ja hotellipaketti</a></li>
                 <li><a href="#maailmanympari">Maailman ympäri</a></li>
                 <li><a href="#thaimaa">Thaimaa</a></li>
-                <li><a href="#intia">Intia</a></li>
+                <li>
+                    <a href="#intia">Intia</a>
+                    <ul>
+                        <li><a href="#ryhmat">Ryhmämatkat</a></li>
+                        <li><a href="#erikois">Erikoismatka</a></li>
+                        <li><a href="#unelma">Unelmamatka</a></li>
+                        <li><a href="#kultainen">Kultainen kolmio</a></li>
+                        <li><a href="#klassinen">Klassinen Intia</a></li>
+                        <li><a href="#loytore">Löytöretki</a></li>
+                        <li><a href="#kerala">Kerala intromatka</a></li>
+                        <li><a href="#palace">Palace On Wheels</a></li>
+                        <li><a href="#kesa">Kesämatka</a></li>
+                        <li><a href="#ominpain">Intia ominpääin</a></li>
+                        <li><a href="#nepal">Intia-Nepal</a></li>
+                        <li><a href="#delhi">Delhi starttipaketti</a></li>
+                        <li><a href="#mumbai">Mumbai</a></li>
+                        <li><a href="#dharam">Dharamshala</a></li>
+                        <li><a href="#darjeeling">Darjeeling, Sikkim</a></li>
+                        <li><a href="#hemis">Hemis</a></li>
+                        <li><a href="#jooga">Jooga</a></li>
+                        <li><a href="#hotellit">Hotellit</a></li>
+                        <li><a href="#junapassi">Junapassi</a></li>
+                        <li><a href="#juna-aikataulut">Juna-aikataulut</a></li>
+                        <li><a href="#osavaltiot">Osavaltiot</a></li>
+                        <li><a href="#bollywood">Bollywood-tv</a></li>
+                    </ul>
+                </li>
                 <li><a href="#ohjeita">Ohjeita Intiaan matkaaville</a></li>
                 <li><a href="#nepal">Nepal</a></li>
                 <li><a href="#srilanka">Sri Lanka</a></li>
@@ -403,4 +513,15 @@
         document.getElementById('langToggle').addEventListener('click', () => {
             window.location.href = 'en/index_en.html';
         });
+
+        // Optional: Add click toggle for submenu on mobile
+        const intiaLink = document.querySelector('a[href="#intia"]');
+        const submenu = intiaLink.nextElementSibling;
+        if (submenu && window.innerWidth <= 768) {
+            intiaLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
+                intiaLink.parentElement.classList.toggle('active');
+            });
+        }
     </script>
