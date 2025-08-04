@@ -130,14 +130,6 @@
             padding: 0 20px;
         }
 
-        .main-content iframe {
-            width: 100%;
-            height: 600px; /* Adjustable height */
-            border: none;
-            background: rgba(255, 255, 255, 0.85);
-            border-radius: 10px;
-        }
-
         .right-sidebar {
             width: 250px;
             background: rgba(255, 255, 255, 0.95);
@@ -167,18 +159,17 @@
             max-width: 150px;
         }
 
-        .hero {
+        .hero, .ryhmat-content {
             text-align: center;
             padding: 50px 20px;
             background: rgba(255, 255, 255, 0.85);
             border-radius: 10px;
             margin: 20px 0;
+            display: none; /* Hidden by default */
         }
 
-        .hero h1 {
-            font-size: 2.5em;
-            color: #0066cc;
-            margin-bottom: 10px;
+        .hero.active, .ryhmat-content.active {
+            display: block; /* Show when active */
         }
 
         .carousel {
@@ -281,7 +272,7 @@
                 padding: 0;
             }
 
-            .hero h1 {
+            .hero h1, .ryhmat-content h1 {
                 font-size: 1.8em;
             }
 
@@ -302,10 +293,6 @@
             .left-sidebar ul li.active > ul {
                 display: block;
             }
-
-            .main-content iframe {
-                height: 400px; /* Adjusted for mobile */
-            }
         }
     </style>
 </head>
@@ -321,7 +308,7 @@
                 <li>
                     <a href="#intia">Intia</a>
                     <ul>
-                        <li><a href="juhlamatka.html" target="contentFrame">Ryhmämatkat</a></li>
+                        <li><a href="#ryhmat">Ryhmämatkat</a></li>
                         <li><a href="#erikois">Erikoismatka</a></li>
                         <li><a href="#unelma">Unelma matka</a></li>
                         <li><a href="#kultainen">Kultainen kolmio</a></li>
@@ -367,69 +354,57 @@
                     <button id="langToggle" style="margin-left: 20px; padding: 5px 10px; cursor: pointer;">Switch to English</button>
                 </div>
             </header>
-            <iframe name="contentFrame" src="about:blank"></iframe>
-            <footer>
-                <p>Matkojen varaukset puhelimitse: <strong>09-680 3180</strong></p>
-                <p>Sähköposti: <a href="mailto:sales@intiakeskus.fi">sales@intiakeskus.fi</a></p>
-                <p>Tarkistakaa sähköpostit myös roskapostikansiosta.</p>
-                <p><a href="https://facebook.com">Facebook</a></p>
-            </footer>
-        </div>
-        <div class="right-sidebar">
-            <img src="./img/patsas.jpg" alt="Krishna">
-            <p>Krishna</p>
-        </div>
-    </div>
-    <script>
-        const track = document.querySelector('.carousel-track');
-        const items = document.querySelectorAll('.carousel-item');
-        const prevButton = document.querySelector('.prev');
-        const nextButton = document.querySelector('.next');
-        let currentIndex = 0;
-        const itemWidth = items[0].getBoundingClientRect().width + 20;
-
-        function updateCarousel() {
-            track.style.transform = `translateX(-${currentIndex * itemWidth}px)`;
-        }
-
-        nextButton.addEventListener('click', () => {
-            if (currentIndex < items.length - 3) {
-                currentIndex++;
-                updateCarousel();
-            }
-        });
-
-        prevButton.addEventListener('click', () => {
-            if (currentIndex > 0) {
-                currentIndex--;
-                updateCarousel();
-            }
-        });
-
-        // Smooth scrolling for nav links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', (e) => {
-                e.preventDefault();
-                const target = document.querySelector(anchor.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth' });
-                }
-            });
-        });
-
-        // Language switcher
-        document.getElementById('langToggle').addEventListener('click', () => {
-            window.location.href = 'en/index_en.html';
-        });
-
-        // Optional: Toggle submenu on mobile
-        const intiaLink = document.querySelector('a[href="#intia"]');
-        const submenu = intiaLink.nextElementSibling;
-        if (submenu && window.innerWidth <= 768) {
-            intiaLink.addEventListener('click', (e) => {
-                e.preventDefault();
-                submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
-                intiaLink.parentElement.classList.toggle('active');
-            });
-        }
-    </script>
+            <div class="hero active">
+                <h1>Intia-Keskus - Matkoja Yli 40 Vuotta</h1>
+                <p>Lähtöjä päivittäin Intiaan, Thaimaahan, Malesiaan, Karibiaan, Espanjaan ja yli 900 kohteeseen!</p>
+                <p>Maksaa voit myös palattuasi matkalta - 2kk korotonta maksuaikaa tai pidemmällä maksuajalla.</p>
+            </div>
+            <div class="ryhmat-content">
+                <h1>Ryhmämatkat</h1>
+                <p>Uskomaton Lootustemppeli Delhissä</p>
+                <p>Kalliokaiverruksia Mahabalipuramissa</p>
+                <p>Aurinkoa ja uintia Mahabalipuramin rannoilla</p>
+                <p>Kuuluisa temppelikaupunki Mahabalipuram</p>
+                <h2>Ryhmämatkamme suomenkielisellä opastuksella:</h2>
+                <ol>
+                    <li><strong>Kultainen kolmio tiikerisafarilla</strong><br>Kokemusmatka kaikille aisteille. Nähtävyydet pääkaupungissa Delhissä. Ajo maaseudun halki Agraan, jossa pääkohde maailmankuulu Taj Mahal, yksi maailman seitsemästä ihmeestä. Jännittävä tiikerisafari Ranthamborin luontopuistossa ja lopuksi vaaleanpunainen kaupunki Jaipuri. Amberin linnoitukseen ratsastus norsuilla, kuten entisajan Maharadjat.</li>
+                    <li><strong>Klassinen Intia</strong><br>Tutustumismatka pohjois-Intian parhaisiin kohteisiin. Pääkaupunki Delhi, ikivanha Varanasin kaupunki Ganges-joen varrella, yli tuhat vuotta vanha temppelikaupunki Khajuraho, maailmankuulu Taj Mahal Agrassa sekä Maharadjojen vaaleanpunainen kaupunki Jaipur.</li>
+                    <li><strong>Erikoismatka Himalajalle</strong><br>Ainutlaatuinen matka luonnonkauniille Himalajalle. Käymme Dalai Laman asuinseudulla Dharamshalassa jossa tutustumme mm. tiibettiläisyyteen ja Buddhismiin. Poikkeamme Sikhien Kultaisessa Temppelissä, Amritsarissa. Jatkamme vuoristokylään Palampuriin, jossa myös teeviljelystä. Lopuksi Shimla, joka on rakennettu mielenkiintoisesti vuoren ympärille ja oli ennen keskipääkaupunki.</li>
+                </ol>
+                <p>Tilaa matka-esitteemme tai lataa pdf tästä alta!</p>
+                <a href="#" onclick="document.querySelector('.hero').classList.add('active'); document.querySelector('.ryhmat-content').classList.remove('active'); return false;">Takaisin</a>
+            </div>
+            <div class="content">
+                <h2>Suosittuja Kohteita</h2>
+                <div class="carousel">
+                    <button class="carousel-button prev">&#10094;</button>
+                    <div class="carousel-track">
+                        <div class="carousel-item">
+                            <img src="./img/Amsterdam.jpg" alt="Amsterdam">
+                            Amsterdam/Pariisi<br>Kysy päivän tarjoukset
+                        </div>
+                        <div class="carousel-item">
+                            <img src="./img/Malaga.jpg" alt="Malaga">
+                            Malaga
+                        </div>
+                        <div class="carousel-item">
+                            <img src="./img/Dubai.jpg" alt="Dubai">
+                            Dubai
+                        </div>
+                        <div class="carousel-item">
+                            <img src="./img/NewYork.jpg" alt="New York">
+                            New York
+                        </div>
+                        <div class="carousel-item">
+                            <img src="./img/Bangkok.jpg" alt="Bangkok">
+                            Bangkok
+                        </div>
+                        <div class="carousel-item">
+                            <img src="./img/Singapore.jpg" alt="Singapore">
+                            Singapore
+                        </div>
+                        <div class="carousel-item">
+                            <img src="./img/India.jpg" alt="India">
+                            Intia
+                        </div>
+                        <div class="carousel-item">
