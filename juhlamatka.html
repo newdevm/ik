@@ -5,46 +5,108 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ryhmämatkat - Intia-Keskus</title>
     <style>
-        body {
+        * {
             margin: 0;
-            padding: 50px 20px; /* Match main-content padding */
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
             background: rgba(255, 255, 255, 0.85);
             border-radius: 10px;
+        }
+
+        .container {
+            display: flex;
+            width: 100%;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 0 20px;
+        }
+
+        .right-sidebar {
+            width: 250px;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
             text-align: center;
         }
+
+        .right-sidebar img {
+            max-width: 100%;
+            height: auto;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+
         h1 {
             font-size: 2.5em;
             color: #0066cc;
             margin-bottom: 10px;
         }
+
         p, ol {
             margin: 15px 0;
         }
+
         ol li {
             margin: 10px 0;
         }
+
         a {
             color: #0066cc;
             text-decoration: none;
         }
+
         a:hover {
             color: #ff6200;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            .right-sidebar {
+                width: 100%;
+                margin-top: 20px;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>Ryhmämatkat</h1>
-    <p>Uskomaton Lootustemppeli Delhissä</p>
-    <p>Kalliokaiverruksia Mahabalipuramissa</p>
-    <p>Aurinkoa ja uintia Mahabalipuramin rannoilla</p>
-    <p>Kuuluisa temppelikaupunki Mahabalipuram</p>
-    <h2>Ryhmämatkamme suomenkielisellä opastuksella:</h2>
-    <ol>
-        <li><strong>Kultainen kolmio tiikerisafarilla</strong><br>Kokemusmatka kaikille aisteille. Nähtävyydet pääkaupungissa Delhissä. Ajo maaseudun halki Agraan, jossa pääkohde maailmankuulu Taj Mahal, yksi maailman seitsemästä ihmeestä. Jännittävä tiikerisafari Ranthamborin luontopuistossa ja lopuksi vaaleanpunainen kaupunki Jaipuri. Amberin linnoitukseen ratsastus norsuilla, kuten entisajan Maharadjat.</li>
-        <li><strong>Klassinen Intia</strong><br>Tutustumismatka pohjois-Intian parhaisiin kohteisiin. Pääkaupunki Delhi, ikivanha Varanasin kaupunki Ganges-joen varrella, yli tuhat vuotta vanha temppelikaupunki Khajuraho, maailmankuulu Taj Mahal Agrassa sekä Maharadjojen vaaleanpunainen kaupunki Jaipur.</li>
-        <li><strong>Erikoismatka Himalajalle</strong><br>Ainutlaatuinen matka luonnonkauniille Himalajalle. Käymme Dalai Laman asuinseudulla Dharamshalassa jossa tutustumme mm. tiibettiläisyyteen ja Buddhismiin. Poikkeamme Sikhien Kultaisessa Temppelissä, Amritsarissa. Jatkamme vuoristokylään Palampuriin, jossa myös teeviljelystä. Lopuksi Shimla, joka on rakennettu mielenkiintoisesti vuoren ympärille ja oli ennen keskipääkaupunki.</li>
-    </ol>
-    <p>Tilaa matka-esitteemme tai lataa pdf tästä alta!</p>
-    <a href="#" onclick="window.parent.location.href='index.html'; return false;">Takaisin</a>
+    <div class="container">
+        <div class="main-content">
+            <h1>Ryhmämatkat</h1>
+            <h2>Ryhmämatkamme suomenkielisellä opastuksella:</h2>
+            <ol>
+                <li><strong>Kultainen kolmio tiikerisafarilla</strong><br>Kokemusmatka kaikille aisteille. Nähtävyydet pääkaupungissa Delhissä. Ajo maaseudun halki Agraan, jossa pääkohde maailmankuulu Taj Mahal, yksi maailman seitsemästä ihmeestä. Jännittävä tiikerisafari Ranthamborin luontopuistossa ja lopuksi vaaleanpunainen kaupunki Jaipuri. Amberin linnoitukseen ratsastus norsuilla, kuten entisajan Maharadjat.</li>
+                <li><strong>Klassinen Intia</strong><br>Tutustumismatka pohjois-Intian parhaisiin kohteisiin. Pääkaupunki Delhi, ikivanha Varanasin kaupunki Ganges-joen varrella, yli tuhat vuotta vanha temppelikaupunki Khajuraho, maailmankuulu Taj Mahal Agrassa sekä Maharadjojen vaaleanpunainen kaupunki Jaipur.</li>
+                <li><strong>Erikoismatka Himalajalle</strong><br>Ainutlaatuinen matka luonnonkauniille Himalajalle. Käymme Dalai Laman asuinseudulla Dharamshalassa jossa tutustumme mm. tiibettiläisyyteen ja Buddhismiin. Poikkeamme Sikhien Kultaisessa Temppelissä, Amritsarissa. Jatkamme vuoristokylään Palampuriin, jossa myös teeviljelystä. Lopuksi Shimla, joka on rakennettu mielenkiintoisesti vuoren ympärille ja oli ennen keskipääkaupunki.</li>
+            </ol>
+            <p>Tilaa matka-esitteemme tai lataa pdf tästä alta!</p>
+            <a href="#" onclick="window.parent.location.href='index.html'; return false;">Takaisin</a>
+        </div>
+        <div class="right-sidebar">
+            <img src="./img/placeholder1.jpg" alt="Kolkatan katukuvaa">
+            <p>Kolkatan katukuvaa</p>
+            <img src="./img/placeholder2.jpg" alt="Delhin katukuvaa">
+            <p>Delhin katukuvaa</p>
+            <img src="./img/placeholder3.jpg" alt="Uskomaton Lootustemppeli Delhissä">
+            <p>Uskomaton Lootustemppeli Delhissä</p>
+            <img src="./img/placeholder4.jpg" alt="Kalliokaiverruksia Mahabalipuramissa">
+            <p>Kalliokaiverruksia Mahabalipuramissa</p>
+            <img src="./img/placeholder5.jpg" alt="Aurinkoa ja uintia Mahabalipuramin rannoilla">
+            <p>Aurinkoa ja uintia Mahabalipuramin rannoilla</p>
+            <img src="./img/placeholder6.jpg" alt="Kuuluisa temppelikaupunki Mahabalipuram">
+            <p>Kuuluisa temppelikaupunki Mahabalipuram</p>
+        </div>
+    </div>
 </body>
 </html>
