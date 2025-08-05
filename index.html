@@ -138,25 +138,24 @@
 
         .carousel-track {
             display: flex;
-            flex-wrap: wrap;
             transition: transform 0.5s ease;
         }
 
         .carousel-item {
-            min-width: 250px; /* Adjusted to fit larger images */
+            min-width: 250px;
             margin: 10px;
             padding: 15px;
             background: rgba(255, 255, 255, 0.9);
             border-radius: 8px;
             text-align: center;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            flex: 0 0 calc(25% - 20px); /* 4 items per row */
-            height: 450px; /* Increased to accommodate 400px image + padding/text */
+            flex: 0 0 250px; /* Fixed width to ensure proper scrolling */
+            height: 450px;
         }
 
         .carousel-item img {
             max-width: 100%;
-            height: 400px; /* At least 400px high */
+            height: 400px;
             width: 400px; /* At least 400px wide */
             object-fit: cover;
             border-radius: 5px;
@@ -254,11 +253,8 @@
                 max-width: 100%;
             }
             .carousel-item {
-                flex: 0 0 calc(25% - 20px);
+                flex: 0 0 250px;
                 height: 450px;
-            }
-            .carousel-track {
-                height: 920px; /* Two rows of 450px */
             }
         }
 
@@ -469,6 +465,8 @@
 
         function updateCarousel() {
             const itemWidth = items[0].getBoundingClientRect().width + 20;
+            const totalWidth = itemWidth * items.length;
+            track.style.width = `${totalWidth}px`; // Ensure track width matches all items
             track.style.transform = `translateX(-${currentIndex * itemWidth}px)`;
         }
 
@@ -485,6 +483,9 @@
                 updateCarousel();
             }
         });
+
+        // Initialize carousel on load
+        window.addEventListener('load', updateCarousel);
 
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', (e) => {
