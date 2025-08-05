@@ -143,31 +143,32 @@
         }
 
         .carousel-item {
-            min-width: 200px;
+            min-width: 250px; /* Adjusted to fit larger images */
             margin: 10px;
             padding: 15px;
             background: rgba(255, 255, 255, 0.9);
             border-radius: 8px;
             text-align: center;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            flex: 0 0 calc(25% - 20px);
-            height: 300px;
+            flex: 0 0 calc(25% - 20px); /* 4 items per row */
+            height: 450px; /* Increased to accommodate 400px image + padding/text */
         }
 
         .carousel-item img {
             max-width: 100%;
-            height: 200px;
+            height: 400px; /* At least 400px high */
+            width: 400px; /* At least 400px wide */
             object-fit: cover;
             border-radius: 5px;
             margin-bottom: 10px;
         }
 
         .carousel-item .item-name {
-            font-size: 1.2em; /* Prominent font size */
-            font-weight: bold; /* Make it stand out */
-            color: #0066cc; /* Special text color */
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #0066cc;
             margin-top: 10px;
-            white-space: normal; /* Allow text to wrap */
+            white-space: normal;
         }
 
         .carousel-button {
@@ -254,10 +255,10 @@
             }
             .carousel-item {
                 flex: 0 0 calc(25% - 20px);
-                height: 300px;
+                height: 450px;
             }
             .carousel-track {
-                height: 620px;
+                height: 920px; /* Two rows of 450px */
             }
         }
 
@@ -297,17 +298,18 @@
             }
 
             .carousel-item {
-                min-width: 150px;
-                flex: 0 0 150px;
-                height: 250px;
+                min-width: 200px;
+                flex: 0 0 200px;
+                height: 350px;
             }
 
             .carousel-item img {
-                height: 150px;
+                height: 250px;
+                width: 250px;
             }
 
             .carousel-item .item-name {
-                font-size: 1em; /* Slightly reduced for mobile */
+                font-size: 1em;
             }
 
             iframe {
@@ -464,7 +466,6 @@
         const prevButton = document.querySelector('.prev');
         const nextButton = document.querySelector('.next');
         let currentIndex = 0;
-        const visibleItems = 2;
 
         function updateCarousel() {
             const itemWidth = items[0].getBoundingClientRect().width + 20;
@@ -472,7 +473,7 @@
         }
 
         nextButton.addEventListener('click', () => {
-            if (currentIndex < items.length - visibleItems) {
+            if (currentIndex < items.length - 1) {
                 currentIndex++;
                 updateCarousel();
             }
