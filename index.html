@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2Intia-Keskus - Matkoja Yli 40 Vuotta</title>
+    <title>1Intia-Keskus - Matkoja Yli 40 Vuotta</title>
     <style>
         * {
             margin: 0;
@@ -94,6 +94,7 @@
         }
 
         .main-content {
+            flex: 1;
             padding: 0 20px;
         }
 
@@ -235,22 +236,25 @@
         @media (min-width: 769px) {
             .container {
                 display: flex;
+                justify-content: space-between;
             }
 
             .left-sidebar {
                 position: sticky;
                 top: 20px;
                 height: fit-content;
+                order: 1;
             }
 
             .main-content {
-                flex: 1;
+                order: 2;
             }
 
             .right-sidebar {
                 position: sticky;
                 top: 20px;
                 height: fit-content;
+                order: 3;
             }
         }
 
@@ -273,7 +277,7 @@
             }
 
             .main-content {
-                order: 3; /* Move main content after sidebar on mobile */
+                order: 3;
             }
 
             .right-sidebar {
@@ -299,7 +303,7 @@
     <div class="container">
         <header>
             <div class="logo">
-                <img src="./img/intiaKeskusLogo1976.png" alt="Intia-Keskus Logo">
+                <img src="./img/otsikko_keski.gif" alt="Intia-Keskus Logo">
                 <button id="langToggle" style="margin-left: 20px; padding: 5px 10px; cursor: pointer;">Switch to English</button>
             </div>
         </header>
