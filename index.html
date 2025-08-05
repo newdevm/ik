@@ -132,12 +132,13 @@
             overflow: hidden;
             position: relative;
             width: 100%;
-            max-width: 800px; /* Increased for desktop */
-            margin: 20px auto;
+            margin: 20px 0;
+            padding: 0; /* Remove padding to eliminate white space */
         }
 
         .carousel-track {
             display: flex;
+            flex-wrap: wrap; /* Two rows on desktop */
             transition: transform 0.5s ease;
         }
 
@@ -149,12 +150,13 @@
             border-radius: 8px;
             text-align: center;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            flex: 0 0 auto; /* Ensure items don't stretch */
+            flex: 0 0 calc(25% - 20px); /* 4 items per row on desktop, accounting for margin */
+            height: 300px; /* Minimum height of 300px */
         }
 
         .carousel-item img {
             max-width: 100%;
-            height: 100px;
+            height: 200px; /* Ensure image takes up most of the height */
             object-fit: cover;
             border-radius: 5px;
             margin-bottom: 10px;
@@ -167,19 +169,20 @@
             background: #0066cc;
             color: white;
             border: none;
-            padding: 10px;
+            padding: 15px 20px; /* Larger buttons */
             cursor: pointer;
             border-radius: 50%;
-            font-size: 1.2em;
+            font-size: 1.5em; /* Bigger font size */
             z-index: 10;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Add prominence with shadow */
         }
 
         .prev {
-            left: 10px;
+            left: 0;
         }
 
         .next {
-            right: 10px;
+            right: 0;
         }
 
         .content {
@@ -239,7 +242,14 @@
                 display: block;
             }
             .carousel {
-                max-width: 800px; /* Consistent desktop width */
+                max-width: 100%; /* Full width with no extra padding */
+            }
+            .carousel-item {
+                flex: 0 0 calc(25% - 20px); /* Maintain 4 items per row */
+                height: 300px;
+            }
+            .carousel-track {
+                height: 620px; /* Two rows of 300px + margins */
             }
         }
 
@@ -268,17 +278,24 @@
             }
 
             .carousel {
-                max-width: 100%; /* Full width on mobile */
-                overflow-x: auto; /* Enable horizontal scrolling if needed */
-                -webkit-overflow-scrolling: touch; /* Smooth scrolling on mobile */
+                max-width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
             }
 
             .carousel-track {
-                flex-wrap: nowrap; /* Prevent wrapping on mobile */
+                flex-wrap: nowrap;
+                height: auto; /* Allow natural height on mobile */
             }
 
             .carousel-item {
-                min-width: 150px; /* Adjusted for mobile */
+                min-width: 150px;
+                flex: 0 0 150px; /* Fixed width for mobile scrolling */
+                height: 250px; /* Slightly reduced height for mobile */
+            }
+
+            .carousel-item img {
+                height: 150px; /* Adjusted image height for mobile */
             }
 
             iframe {
@@ -429,14 +446,15 @@
         const prevButton = document.querySelector('.prev');
         const nextButton = document.querySelector('.next');
         let currentIndex = 0;
-        const itemWidth = items[0].getBoundingClientRect().width + 20;
+        const visibleItems = 2; // Number of items visible at a time on mobile
 
         function updateCarousel() {
+            const itemWidth = items[0].getBoundingClientRect().width + 20;
             track.style.transform = `translateX(-${currentIndex * itemWidth}px)`;
         }
 
         nextButton.addEventListener('click', () => {
-            if (currentIndex < items.length - 3) {
+            if (currentIndex < items.length - visibleItems) {
                 currentIndex++;
                 updateCarousel();
             }
