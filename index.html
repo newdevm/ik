@@ -1,49 +1,9 @@
-<script type="text/javascript">
-    var gk_isXlsx = false;
-    var gk_xlsxFileLookup = {};
-    var gk_fileData = {};
-    function filledCell(cell) {
-      return cell !== '' && cell != null;
-    }
-    function loadFileData(filename) {
-    if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
-        try {
-            var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
-            var firstSheetName = workbook.SheetNames[0];
-            var worksheet = workbook.Sheets[firstSheetName];
-
-            // Convert sheet to JSON to filter blank rows
-            var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
-            // Filter out blank rows (rows where all cells are empty, null, or undefined)
-            var filteredData = jsonData.filter(row => row.some(filledCell));
-
-            // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
-            var headerRowIndex = filteredData.findIndex((row, index) =>
-              row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
-            );
-            // Fallback
-            if (headerRowIndex === -1 || headerRowIndex > 25) {
-              headerRowIndex = 0;
-            }
-
-            // Convert filtered JSON back to CSV
-            var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
-            csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
-            return csv;
-        } catch (e) {
-            console.error(e);
-            return "";
-        }
-    }
-    return gk_fileData[filename] || "";
-    }
-</script>
 <!DOCTYPE html>
 <html lang="fi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Intia-Keskus - Matkoja Yli 40 Vuotta1</title>
+    <title>Intia-Keskus - Matkoja Yli 40 Vuotta</title>
     <style>
         * {
             margin: 0;
@@ -61,10 +21,21 @@
         }
 
         .container {
-            display: flex;
             max-width: 1400px;
             margin: 0 auto;
             padding: 20px;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 10px 20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .logo img {
+            max-width: 150px;
         }
 
         .left-sidebar {
@@ -72,9 +43,6 @@
             background: rgba(255, 255, 255, 0.95);
             box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
             padding: 20px;
-            position: sticky;
-            top: 20px;
-            height: fit-content;
             border-radius: 10px;
         }
 
@@ -126,58 +94,11 @@
         }
 
         .main-content {
-            flex: 1;
             padding: 0 20px;
         }
 
-        .main-content .default-content {
+        .default-content {
             display: block;
-        }
-
-        .main-content iframe {
-            width: 100%;
-            height: 600px;
-            border: none;
-            background: rgba(255, 255, 255, 0.85);
-            border-radius: 10px;
-            display: none;
-        }
-
-        .main-content .iframe-active iframe {
-            display: block;
-        }
-
-        .main-content .iframe-active .default-content {
-            display: none;
-        }
-
-        .right-sidebar {
-            width: 250px;
-            background: rgba(255, 255, 255, 0.95);
-            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            position: sticky;
-            top: 20px;
-            height: fit-content;
-            border-radius: 10px;
-            text-align: center;
-        }
-
-        .right-sidebar img {
-            max-width: 100%;
-            border-radius: 8px;
-        }
-
-        header {
-            background: rgba(255, 255, 255, 0.95);
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            padding: 10px 20px;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .logo img {
-            max-width: 150px;
         }
 
         .hero {
@@ -259,11 +180,43 @@
             margin-bottom: 15px;
         }
 
+        iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+            background: rgba(255, 255, 255, 0.85);
+            border-radius: 10px;
+            display: none;
+        }
+
+        .iframe-active iframe {
+            display: block;
+        }
+
+        .iframe-active .default-content {
+            display: none;
+        }
+
+        .right-sidebar {
+            width: 250px;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .right-sidebar img {
+            max-width: 100%;
+            border-radius: 8px;
+        }
+
         footer {
             background: rgba(255, 255, 255, 0.95);
             padding: 20px;
             text-align: center;
             border-radius: 10px;
+            margin-top: 20px;
         }
 
         footer p {
@@ -279,19 +232,53 @@
             color: #ff6200;
         }
 
+        @media (min-width: 769px) {
+            .container {
+                display: flex;
+            }
+
+            .left-sidebar {
+                position: sticky;
+                top: 20px;
+                height: fit-content;
+            }
+
+            .main-content {
+                flex: 1;
+            }
+
+            .right-sidebar {
+                position: sticky;
+                top: 20px;
+                height: fit-content;
+            }
+        }
+
         @media (max-width: 768px) {
             .container {
                 flex-direction: column;
             }
 
-            .left-sidebar, .right-sidebar {
+            header {
+                margin-bottom: 0;
+            }
+
+            .logo {
+                margin-bottom: 20px;
+            }
+
+            .left-sidebar {
                 width: 100%;
-                position: static;
                 margin-bottom: 20px;
             }
 
             .main-content {
-                padding: 0;
+                order: 3; /* Move main content after sidebar on mobile */
+            }
+
+            .right-sidebar {
+                width: 100%;
+                margin-top: 20px;
             }
 
             .hero h1 {
@@ -302,21 +289,7 @@
                 min-width: 150px;
             }
 
-            .left-sidebar ul ul {
-                position: static;
-                width: 100%;
-                box-shadow: none;
-            }
-
-            .left-sidebar ul li:hover > ul {
-                display: none;
-            }
-
-            .left-sidebar ul li.active > ul {
-                display: block;
-            }
-
-            .main-content iframe {
+            iframe {
                 height: 400px;
             }
         }
@@ -324,6 +297,12 @@
 </head>
 <body>
     <div class="container">
+        <header>
+            <div class="logo">
+                <img src="./img/otsikko_keski.gif" alt="Intia-Keskus Logo">
+                <button id="langToggle" style="margin-left: 20px; padding: 5px 10px; cursor: pointer;">Switch to English</button>
+            </div>
+        </header>
         <div class="left-sidebar">
             <ul>
                 <li><a href="#etusivu">Etusivu</a></li>
@@ -374,12 +353,6 @@
             </ul>
         </div>
         <div class="main-content">
-            <header>
-                <div class="">
-                    <img src="./img/otsikko_keski.gif" alt="Intia-Keskus Logo">
-                    <button id="langToggle" style="margin-left: 20px; padding: 5px 10px; cursor: pointer;">Switch to English</button>
-                </div>
-            </header>
             <div class="default-content">
                 <div class="hero">
                     <h1>Intia-Keskus - Matkoja Yli 40 Vuotta</h1>
@@ -447,17 +420,17 @@
                 </div>
             </div>
             <iframe name="contentFrame" src="about:blank"></iframe>
-            <footer>
-                <p>Matkojen varaukset puhelimitse: <strong>09-680 3180</strong></p>
-                <p>Sähköposti: <a href="mailto:sales@intiakeskus.fi">sales@intiakeskus.fi</a></p>
-                <p>Tarkistakaa sähköpostit myös roskapostikansiosta.</p>
-                <p><a href="https://facebook.com">Facebook</a></p>
-            </footer>
         </div>
         <div class="right-sidebar">
             <img src="./img/patsas.jpg" alt="Krishna">
             <p>Krishna</p>
         </div>
+        <footer>
+            <p>Matkojen varaukset puhelimitse: <strong>09-680 3180</strong></p>
+            <p>Sähköposti: <a href="mailto:sales@intiakeskus.fi">sales@intiakeskus.fi</a></p>
+            <p>Tarkistakaa sähköpostit myös roskapostikansiosta.</p>
+            <p><a href="https://facebook.com">Facebook</a></p>
+        </footer>
     </div>
     <script>
         const track = document.querySelector('.carousel-track');
@@ -485,7 +458,6 @@
             }
         });
 
-        // Smooth scrolling for nav links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -496,22 +468,21 @@
             });
         });
 
-        // Language switcher
         document.getElementById('langToggle').addEventListener('click', () => {
             window.location.href = 'en/index_en.html';
         });
 
-        // Toggle between default content and iframe
-       document.querySelectorAll('a[target="contentFrame"]').forEach(link => {
-    link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const mainContent = document.querySelector('.main-content');
-        mainContent.classList.add('iframe-active');
-        console.log('Link clicked, iframe should load:', link.href);
-    });
-});
+        document.querySelectorAll('a[target="contentFrame"]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const mainContent = document.querySelector('.main-content');
+                const iframe = document.querySelector('iframe');
+                iframe.src = link.href;
+                mainContent.classList.add('iframe-active');
+                console.log('Loading:', link.href);
+            });
+        });
 
-        // Optional: Toggle submenu on mobile
         const intiaLink = document.querySelector('a[href="#intia"]');
         const submenu = intiaLink.nextElementSibling;
         if (submenu && window.innerWidth <= 768) {
