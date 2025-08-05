@@ -125,14 +125,14 @@
         }
 
         .hero {
-            display: none; /* Removed blank hero div */
+            display: none;
         }
 
         .carousel {
             overflow: hidden;
             position: relative;
             width: 100%;
-            max-width: 400px; /* Reduced width for mobile */
+            max-width: 800px; /* Increased for desktop */
             margin: 20px auto;
         }
 
@@ -142,13 +142,14 @@
         }
 
         .carousel-item {
-            min-width: 150px;
+            min-width: 200px;
             margin: 10px;
             padding: 15px;
             background: rgba(255, 255, 255, 0.9);
             border-radius: 8px;
             text-align: center;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            flex: 0 0 auto; /* Ensure items don't stretch */
         }
 
         .carousel-item img {
@@ -210,21 +211,6 @@
             display: none;
         }
 
-        .right-sidebar {
-            width: 250px;
-            background: rgba(255, 255, 255, 0.95);
-            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            border-radius: 10px;
-            order: 4;
-            text-align: center;
-        }
-
-        .right-sidebar img {
-            max-width: 100%;
-            border-radius: 8px;
-        }
-
         footer {
             background: rgba(255, 255, 255, 0.95);
             padding: 20px;
@@ -252,6 +238,9 @@
             .header-krishna {
                 display: block;
             }
+            .carousel {
+                max-width: 800px; /* Consistent desktop width */
+            }
         }
 
         @media (max-width: 768px) {
@@ -278,17 +267,18 @@
                 order: 3;
             }
 
-            .right-sidebar {
-                width: 100%;
-                margin-top: 20px;
+            .carousel {
+                max-width: 100%; /* Full width on mobile */
+                overflow-x: auto; /* Enable horizontal scrolling if needed */
+                -webkit-overflow-scrolling: touch; /* Smooth scrolling on mobile */
             }
 
-            .carousel {
-                max-width: 100%; /* Full width on mobile, but items constrained */
+            .carousel-track {
+                flex-wrap: nowrap; /* Prevent wrapping on mobile */
             }
 
             .carousel-item {
-                min-width: 120px; /* Adjusted for mobile */
+                min-width: 150px; /* Adjusted for mobile */
             }
 
             iframe {
@@ -364,9 +354,6 @@
         </div>
         <div class="main-content">
             <div class="default-content">
-                <div class="hero">
-                    <!-- Already removed -->
-                </div>
                 <div class="content">
                     <h2>Suosittuja Kohteita</h2>
                     <div class="carousel">
@@ -428,10 +415,6 @@
                 </div>
             </div>
             <iframe name="contentFrame" src="about:blank"></iframe>
-        </div>
-        <div class="right-sidebar">
-            <img src="./img/patsas.jpg" alt="Krishna">
-            <p>Krishna</p>
         </div>
         <footer>
             <p>Matkojen varaukset puhelimitse: <strong>09-680 3180</strong></p>
