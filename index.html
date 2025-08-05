@@ -118,7 +118,7 @@
             flex: 1;
             padding: 0 20px;
             order: 3;
-            min-height: 400px; /* Ensure content area has some height */
+            min-height: 400px;
         }
 
         .default-content {
@@ -143,20 +143,20 @@
         }
 
         .carousel-item {
-            min-width: 250px;
+            min-width: 0;
             margin: 10px;
             padding: 15px;
             background: rgba(255, 255, 255, 0.9);
             border-radius: 8px;
             text-align: center;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            flex: 0 0 430px; /* Adjusted to fit 400px image + margins/padding */
-            height: 450px;
+            flex: 0 0 400px; /* Fixed width to show ~3 items */
+            height: 500px; /* Increased height for better name display */
         }
 
         .carousel-item img {
-            width: 400px; /* Fixed width of 400px */
-            height: 400px; /* Fixed height of 400px */
+            width: 400px;
+            height: 400px;
             object-fit: cover;
             border-radius: 5px;
             margin-bottom: 10px;
@@ -168,6 +168,8 @@
             color: #0066cc;
             margin-top: 10px;
             white-space: normal;
+            word-break: break-word; /* Ensure text wraps properly */
+            padding: 0 5px; /* Add padding for better text spacing */
         }
 
         .carousel-button {
@@ -253,8 +255,8 @@
                 max-width: 100%;
             }
             .carousel-item {
-                flex: 0 0 430px;
-                height: 450px;
+                flex: 0 0 400px;
+                height: 500px;
             }
         }
 
@@ -462,16 +464,20 @@
         const prevButton = document.querySelector('.prev');
         const nextButton = document.querySelector('.next');
         let currentIndex = 0;
+        const visibleItems = 3; // Show 3 items at a time on PC
 
         function updateCarousel() {
             const itemWidth = items[0].getBoundingClientRect().width + 20;
             const totalWidth = itemWidth * items.length;
             track.style.width = `${totalWidth}px`;
             track.style.transform = `translateX(-${currentIndex * itemWidth}px)`;
+            // Ensure buttons are visible
+            prevButton.style.display = currentIndex > 0 ? 'block' : 'none';
+            nextButton.style.display = currentIndex < items.length - visibleItems ? 'block' : 'none';
         }
 
         nextButton.addEventListener('click', () => {
-            if (currentIndex < items.length - 1) {
+            if (currentIndex < items.length - visibleItems) {
                 currentIndex++;
                 updateCarousel();
             }
