@@ -1,44 +1,67 @@
+when i click on intia link, these sublinks open: -Ryhmämatkat
+-Erikoismatka
+-Unelmamatka
+-Kultainen kolmio
+-Klassinen Intia
+-L�yt�retki
+-Kerala intromatka
+-Palace On Wheels
+-Kesämatka
+-Intia ominp�in
+-Intia-Nepal
+-Delhi starttipaketti -Mumbai "
+-Dharamshala
+-Darjeeling,Sikkim
+-Hemis
+-Jooga
+-Hotellit
+-Junapassi
+-Juna-aikataulut
+-Osavaltiot
+-Bollywood-tv
+
+how do i make it happen in this page of mine what i now have as index.html:
+
 <script type="text/javascript">
-    var gk_isXlsx = false;
-    var gk_xlsxFileLookup = {};
-    var gk_fileData = {};
-    function filledCell(cell) {
-      return cell !== '' && cell != null;
-    }
-    function loadFileData(filename) {
-    if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
-        try {
-            var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
-            var firstSheetName = workbook.SheetNames[0];
-            var worksheet = workbook.Sheets[firstSheetName];
-
-            // Convert sheet to JSON to filter blank rows
-            var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
-            // Filter out blank rows (rows where all cells are empty, null, or undefined)
-            var filteredData = jsonData.filter(row => row.some(filledCell));
-
-            // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
-            var headerRowIndex = filteredData.findIndex((row, index) =>
-              row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
-            );
-            // Fallback
-            if (headerRowIndex === -1 || headerRowIndex > 25) {
-              headerRowIndex = 0;
-            }
-
-            // Convert filtered JSON back to CSV
-            var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
-            csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
-            return csv;
-        } catch (e) {
-            console.error(e);
-            return "";
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
         }
-    }
-    return gk_fileData[filename] || "";
-    }
-</script>
-<!DOCTYPE html>
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
 <html lang="fi">
 <head>
     <meta charset="UTF-8">
@@ -84,7 +107,6 @@
 
         .left-sidebar ul li {
             margin: 15px 0;
-            position: relative;
         }
 
         .left-sidebar ul li a {
@@ -92,63 +114,15 @@
             color: #0066cc;
             font-weight: bold;
             transition: color 0.3s;
-            display: block;
         }
 
         .left-sidebar ul li a:hover {
             color: #ff6200;
         }
 
-        .left-sidebar ul ul {
-            display: none;
-            position: absolute;
-            left: 100%;
-            top: 0;
-            background: rgba(255, 255, 255, 0.95);
-            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-            border-radius: 5px;
-            min-width: 200px;
-            z-index: 10;
-        }
-
-        .left-sidebar ul li:hover > ul {
-            display: block;
-        }
-
-        .left-sidebar ul ul li {
-            margin: 0;
-            padding: 5px 10px;
-        }
-
-        .left-sidebar ul ul li a {
-            font-weight: normal;
-            padding: 5px;
-        }
-
         .main-content {
             flex: 1;
             padding: 0 20px;
-        }
-
-        .main-content .default-content {
-            display: block;
-        }
-
-        .main-content iframe {
-            width: 100%;
-            height: 600px;
-            border: none;
-            background: rgba(255, 255, 255, 0.85);
-            border-radius: 10px;
-            display: none;
-        }
-
-        .main-content .iframe-active iframe {
-            display: block;
-        }
-
-        .main-content .iframe-active .default-content {
-            display: none;
         }
 
         .right-sidebar {
@@ -301,24 +275,6 @@
             .carousel-item {
                 min-width: 150px;
             }
-
-            .left-sidebar ul ul {
-                position: static;
-                width: 100%;
-                box-shadow: none;
-            }
-
-            .left-sidebar ul li:hover > ul {
-                display: none;
-            }
-
-            .left-sidebar ul li.active > ul {
-                display: block;
-            }
-
-            .main-content iframe {
-                height: 400px;
-            }
         }
     </style>
 </head>
@@ -331,33 +287,7 @@
                 <li><a href="#paketit">Lento ja hotellipaketti</a></li>
                 <li><a href="#maailmanympari">Maailman ympäri</a></li>
                 <li><a href="#thaimaa">Thaimaa</a></li>
-                <li>
-                    <a href="#intia">Intia</a>
-                    <ul>
-                        <li><a href="juhlamatka.html" target="contentFrame">Ryhmämatkat</a></li>
-                        <li><a href="#erikois">Erikoismatka</a></li>
-                        <li><a href="#unelma">Unelma matka</a></li>
-                        <li><a href="#kultainen">Kultainen kolmio</a></li>
-                        <li><a href="#klassinen">Klassinen Intia</a></li>
-                        <li><a href="#loytore">Löytöretki</a></li>
-                        <li><a href="#kerala">Kerala intromatka</a></li>
-                        <li><a href="#palace">Palace On Wheels</a></li>
-                        <li><a href="#royal">Royal Orient</a></li>
-                        <li><a href="#ominpain">Intia ominpääin</a></li>
-                        <li><a href="#nepal">Intia-Nepal</a></li>
-                        <li><a href="#delhi">Delhi starttipaketti</a></li>
-                        <li><a href="#mumbai">Mumbai</a></li>
-                        <li><a href="#dharam">Dharamshala</a></li>
-                        <li><a href="#darjeeling">Darjeeling, Sikkim</a></li>
-                        <li><a href="#hemis">Hemis</a></li>
-                        <li><a href="#jooga">Jooga</a></li>
-                        <li><a href="#hotellit">Hotellit</a></li>
-                        <li><a href="#junapassi">Junapassi</a></li>
-                        <li><a href="#juna-aikataulut">Juna-aikataulut</a></li>
-                        <li><a href="#osavaltiot">Osavaltiot</a></li>
-                        <li><a href="#bollywood">Bollywood-tv</a></li>
-                    </ul>
-                </li>
+                <li><a href="#intia">Intia</a></li>
                 <li><a href="#ohjeita">Ohjeita Intiaan matkaaville</a></li>
                 <li><a href="#nepal">Nepal</a></li>
                 <li><a href="#srilanka">Sri Lanka</a></li>
@@ -380,73 +310,70 @@
                     <button id="langToggle" style="margin-left: 20px; padding: 5px 10px; cursor: pointer;">Switch to English</button>
                 </div>
             </header>
-            <div class="default-content">
-                <div class="hero">
-                    <h1>Intia-Keskus - Matkoja Yli 40 Vuotta</h1>
-                    <p>Lähtöjä päivittäin Intiaan, Thaimaahan, Malesiaan, Karibiaan, Espanjaan ja yli 900 kohteeseen!</p>
-                    <p>Maksaa voit myös palattuasi matkalta - 2kk korotonta maksuaikaa tai pidemmällä maksuajalla.</p>
-                </div>
-                <div class="content">
-                    <h2>Suosittuja Kohteita</h2>
-                    <div class="carousel">
-                        <button class="carousel-button prev">&#10094;</button>
-                        <div class="carousel-track">
-                            <div class="carousel-item">
-                                <img src="./img/Amsterdam.jpg" alt="Amsterdam">
-                                Amsterdam/Pariisi<br>Kysy päivän tarjoukset
-                            </div>
-                            <div class="carousel-item">
-                                <img src="./img/Malaga.jpg" alt="Malaga">
-                                Malaga
-                            </div>
-                            <div class="carousel-item">
-                                <img src="./img/Dubai.jpg" alt="Dubai">
-                                Dubai
-                            </div>
-                            <div class="carousel-item">
-                                <img src="./img/NewYork.jpg" alt="New York">
-                                New York
-                            </div>
-                            <div class="carousel-item">
-                                <img src="./img/Bangkok.jpg" alt="Bangkok">
-                                Bangkok
-                            </div>
-                            <div class="carousel-item">
-                                <img src="./img/Singapore.jpg" alt="Singapore">
-                                Singapore
-                            </div>
-                            <div class="carousel-item">
-                                <img src="./img/India.jpg" alt="India">
-                                Intia
-                            </div>
-                            <div class="carousel-item">
-                                <img src="./img/Bali.jpg" alt="Bali">
-                                Bali
-                            </div>
-                            <div class="carousel-item">
-                                <img src="./img/Vietnam.jpg" alt="Vietnam">
-                                Vietnam
-                            </div>
-                            <div class="carousel-item">
-                                <img src="./img/Havana.jpg" alt="Havana">
-                                Havanna
-                            </div>
-                            <div class="carousel-item">
-                                <img src="./img/Australia.jpg" alt="Australia">
-                                Australia
-                            </div>
-                            <div class="carousel-item">
-                                <img src="./img/NewZealand.jpg" alt="New Zealand">
-                                Uusi-Seelanti
-                            </div>
-                        </div>
-                        <button class="carousel-button next">&#10095;</button>
-                    </div>
-                    <p>Lento ja hotellipaketit kaikkialle maailmaan. Kysy päivän tarjous. Lähdöt päivittäin. Matkan kesto voi olla haluamanne aika 1-365 päivää.</p>
-                    <p><a href="#kysely">Lisää kohteita</a></p>
-                </div>
+            <div class="hero">
+                <h1>Intia-Keskus - Matkoja Yli 40 Vuotta</h1>
+                <p>Lähtöjä päivittäin Intiaan, Thaimaahan, Malesiaan, Karibiaan, Espanjaan ja yli 900 kohteeseen!</p>
+                <p>Maksaa voit myös palattuasi matkalta - 2kk korotonta maksuaikaa tai pidemmällä maksuajalla.</p>
             </div>
-            <iframe name="contentFrame" src="about:blank"></iframe>
+            <div class="content">
+                <h2>Suosittuja Kohteita</h2>
+                <div class="carousel">
+                    <button class="carousel-button prev">&#10094;</button>
+                    <div class="carousel-track">
+                        <div class="carousel-item">
+                            <img src="./img/Amsterdam.jpg" alt="Amsterdam">
+                            Amsterdam/Pariisi<br>Kysy päivän tarjoukset
+                        </div>
+                        <div class="carousel-item">
+                            <img src="./img/Malaga.jpg" alt="Malaga">
+                            Malaga
+                        </div>
+                        <div class="carousel-item">
+                            <img src="./img/Dubai.jpg" alt="Dubai">
+                            Dubai
+                        </div>
+                        <div class="carousel-item">
+                            <img src="./img/NewYork.jpg" alt="New York">
+                            New York
+                        </div>
+                        <div class="carousel-item">
+                            <img src="./img/Bangkok.jpg" alt="Bangkok">
+                            Bangkok
+                        </div>
+                        <div class="carousel-item">
+                            <img src="./img/Singapore.jpg" alt="Singapore">
+                            Singapore
+                        </div>
+                        <div class="carousel-item">
+                            <img src="./img/India.jpg" alt="India">
+                            Intia
+                        </div>
+                        <div class="carousel-item">
+                            <img src="./img/Bali.jpg" alt="Bali">
+                            Bali
+                        </div>
+                        <div class="carousel-item">
+                            <img src="./img/Vietnam.jpg" alt="Vietnam">
+                            Vietnam
+                        </div>
+                        <div class="carousel-item">
+                            <img src="./img/Havana.jpg" alt="Havana">
+                            Havanna
+                        </div>
+                        <div class="carousel-item">
+                            <img src="./img/Australia.jpg" alt="Australia">
+                            Australia
+                        </div>
+                        <div class="carousel-item">
+                            <img src="./img/NewZealand.jpg" alt="New Zealand">
+                            Uusi-Seelanti
+                        </div>
+                    </div>
+                    <button class="carousel-button next">&#10095;</button>
+                </div>
+                <p>Lento ja hotellipaketit kaikkialle maailmaan. Kysy päivän tarjous. Lähdöt päivittäin. Matkan kesto voi olla haluamanne aika 1-365 päivää.</p>
+                <p><a href="#kysely">Lisää kohteita</a></p>
+            </div>
             <footer>
                 <p>Matkojen varaukset puhelimitse: <strong>09-680 3180</strong></p>
                 <p>Sähköposti: <a href="mailto:sales@intiakeskus.fi">sales@intiakeskus.fi</a></p>
@@ -500,26 +427,4 @@
         document.getElementById('langToggle').addEventListener('click', () => {
             window.location.href = 'en/index_en.html';
         });
-
-        // Toggle between default content and iframe
-        document.querySelectorAll('a[target="contentFrame"]').forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault(); // Prevent opening a new page
-                const mainContent = document.querySelector('.main-content');
-                const iframe = document.querySelector('iframe');
-                iframe.src = link.href; // Set the iframe source to the link's href
-                mainContent.classList.add('iframe-active');
-            });
-        });
-
-        // Optional: Toggle submenu on mobile
-        const intiaLink = document.querySelector('a[href="#intia"]');
-        const submenu = intiaLink.nextElementSibling;
-        if (submenu && window.innerWidth <= 768) {
-            intiaLink.addEventListener('click', (e) => {
-                e.preventDefault();
-                submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
-                intiaLink.parentElement.classList.toggle('active');
-            });
-        }
     </script>
