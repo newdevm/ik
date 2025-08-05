@@ -502,15 +502,14 @@
         });
 
         // Toggle between default content and iframe
-        document.querySelectorAll('a[target="contentFrame"]').forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault(); // Prevent opening a new page
-                const mainContent = document.querySelector('.main-content');
-                const iframe = document.querySelector('iframe');
-                iframe.src = link.href; // Set the iframe source to the link's href
-                mainContent.classList.add('iframe-active');
-            });
-        });
+       document.querySelectorAll('a[target="contentFrame"]').forEach(link => {
+    link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const mainContent = document.querySelector('.main-content');
+        mainContent.classList.add('iframe-active');
+        console.log('Link clicked, iframe should load:', link.href);
+    });
+});
 
         // Optional: Toggle submenu on mobile
         const intiaLink = document.querySelector('a[href="#intia"]');
