@@ -5,316 +5,336 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Intia-Keskus - Matkoja Yli 40 Vuotta</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
-        }
+    * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
 
-        body {
-            background-image: url('./img/background.gif');
-            background-size: repeat;
-            background-attachment: fixed;
-            color: #333;
-            line-height: 1.6;
-        }
+body {
+    background-image: url('./img/background.gif');
+    background-size: repeat;
+    background-attachment: fixed;
+    color: #333;
+    line-height: 1.6;
+}
 
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 20px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
 
-        header {
-            background: rgba(255, 255, 255, 0.95);
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            padding: 10px 20px;
-            width: 100%;
-            order: 1;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
+header {
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 10px 20px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
 
-        .logo img {
-            max-width: 150px;
-        }
+.logo img {
+    max-width: 150px;
+}
 
-        .header-text {
-            flex: 1;
-            text-align: center;
-        }
+.header-text {
+    flex: 1;
+    text-align: center;
+}
 
-        .header-krishna {
-            display: none;
-        }
+.header-krishna {
+    display: none;
+}
 
-        .header-krishna img {
-            max-width: 100px;
-            border-radius: 8px;
-        }
+.header-krishna img {
+    max-width: 100px;
+    border-radius: 8px;
+}
 
-        .left-sidebar {
-            width: 250px;
-            background: rgba(255, 255, 255, 0.95);
-            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            border-radius: 10px;
-            order: 2;
-        }
+.content-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
 
-        .left-sidebar ul {
-            list-style: none;
-        }
+.left-sidebar {
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    width: 100%;
+}
 
-        .left-sidebar ul li {
-            margin: 15px 0;
-            position: relative;
-        }
+.left-sidebar ul {
+    list-style: none;
+}
 
-        .left-sidebar ul li a {
-            text-decoration: none;
-            color: #0066cc;
-            font-weight: bold;
-            transition: color 0.3s;
-            display: block;
-        }
+.left-sidebar ul li {
+    margin: 15px 0;
+    position: relative;
+}
 
-        .left-sidebar ul li a:hover {
-            color: #ff6200;
-        }
+.left-sidebar ul li a {
+    text-decoration: none;
+    color: #0066cc;
+    font-weight: bold;
+    transition: color 0.3s;
+    display: block;
+}
 
-        .left-sidebar ul ul {
-            display: none;
-            position: absolute;
-            left: 100%;
-            top: 0;
-            background: rgba(255, 255, 255, 0.95);
-            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-            border-radius: 5px;
-            min-width: 200px;
-            z-index: 10;
-        }
+.left-sidebar ul li a:hover {
+    color: #ff6200;
+}
 
-        .left-sidebar ul li:hover > ul {
-            display: block;
-        }
+.left-sidebar ul ul {
+    display: none;
+    position: absolute;
+    left: 100%;
+    top: 0;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    min-width: 200px;
+    z-index: 10;
+}
 
-        .left-sidebar ul ul li {
-            margin: 0;
-            padding: 5px 10px;
-        }
+.left-sidebar ul li:hover > ul {
+    display: block;
+}
 
-        .left-sidebar ul ul li a {
-            font-weight: normal;
-            padding: 5px;
-        }
+.left-sidebar ul ul li {
+    margin: 0;
+    padding: 5px 10px;
+}
 
-        .main-content {
-            flex: 1;
-            padding: 0 20px;
-            order: 3;
-            min-height: 400px;
-        }
+.left-sidebar ul ul li a {
+    font-weight: normal;
+    padding: 5px;
+}
 
-        .default-content {
-            display: block;
-        }
+.main-content {
+    flex: 1;
+    padding: 0 20px;
+    min-height: 400px;
+}
 
-        .hero {
-            display: none;
-        }
+.default-content {
+    display: block;
+}
 
-        .carousel {
-            overflow: hidden;
-            position: relative;
-            width: 100%; /* Match screen/container width */
-            max-width: 1300px; /* Limit to fit within container with padding */
-            margin: 20px auto; /* Center the carousel */
-            padding: 0;
-        }
+.hero {
+    display: none;
+}
 
-        .carousel-track {
-            display: flex;
-            transition: transform 0.5s ease;
-        }
+.carousel {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    margin: 20px 0;
+    padding: 0;
+}
 
-        .carousel-item {
-            min-width: 0;
-            margin: 10px;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 8px;
-            text-align: center;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            flex: 0 0 400px; /* Fixed width to show ~3 items */
-            height: 500px; /* Increased height for better name display */
-        }
+.carousel-track {
+    display: flex;
+    transition: transform 0.5s ease;
+    width: max-content;
+}
 
-        .carousel-item img {
-            width: 400px;
-            height: 400px;
-            object-fit: cover;
-            border-radius: 5px;
-            margin-bottom: 10px;
-        }
+.carousel-item {
+    margin: 10px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    flex: 0 0 400px;
+    height: 500px;
+}
 
-        .carousel-item .item-name {
-            font-size: 1.2em;
-            font-weight: bold;
-            color: #0066cc;
-            margin-top: 10px;
-            white-space: normal;
-            word-break: break-word; /* Ensure text wraps properly */
-            padding: 0 5px; /* Add padding for better text spacing */
-        }
+.carousel-item img {
+    width: 400px;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
 
-        .carousel-button {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: #0066cc;
-            color: white;
-            border: none;
-            padding: 15px 20px;
-            cursor: pointer;
-            border-radius: 50%;
-            font-size: 1.5em;
-            z-index: 10;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        }
+.carousel-item .item-name {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #0066cc;
+    margin-top: 10px;
+    white-space: normal;
+    word-break: break-word;
+    padding: 0 5px;
+}
 
-        .prev {
-            left: 0;
-        }
+.carousel-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #0066cc;
+    color: white;
+    border: none;
+    padding: 15px 20px;
+    cursor: pointer;
+    border-radius: 50%;
+    font-size: 1.5em;
+    z-index: 10;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
 
-        .next {
-            right: 0;
-        }
+.prev {
+    left: 0;
+}
 
-        .content {
-            background: rgba(255, 255, 255, 0.9);
-            padding: 20px;
-            border-radius: 10px;
-            margin: 20px 0;
-        }
+.next {
+    right: 0;
+}
 
-        .content h2 {
-            color: #0066cc;
-            margin-bottom: 15px;
-        }
+.content {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px 0;
+}
 
-        iframe {
-            width: 100%;
-            height: 600px;
-            border: none;
-            background: rgba(255, 255, 255, 0.85);
-            border-radius: 10px;
-            display: none;
-        }
+.content h2 {
+    color: #0066cc;
+    margin-bottom: 15px;
+}
 
-        .iframe-active iframe {
-            display: block;
-        }
+iframe {
+    width: 100%;
+    height: 600px;
+    border: none;
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 10px;
+    display: none;
+}
 
-        .iframe-active .default-content {
-            display: none;
-        }
+.iframe-active iframe {
+    display: block;
+}
 
-        footer {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 20px;
-            text-align: center;
-            border-radius: 10px;
-            margin-top: 20px;
-            width: 100%;
-            order: 5;
-        }
+.iframe-active .default-content {
+    display: none;
+}
 
-        footer p {
-            margin: 5px 0;
-        }
+footer {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px;
+    margin-top: 20px;
+    width: 100%;
+}
 
-        footer a {
-            color: #0066cc;
-            text-decoration: none;
-        }
+footer p {
+    margin: 5px 0;
+}
 
-        footer a:hover {
-            color: #ff6200;
-        }
+footer a {
+    color: #0066cc;
+    text-decoration: none;
+}
 
-        @media (min-width: 769px) {
-            .header-krishna {
-                display: block;
-            }
-            .carousel {
-                max-width: 1300px;
-            }
-            .carousel-item {
-                flex: 0 0 400px;
-                height: 500px;
-            }
-        }
+footer a:hover {
+    color: #ff6200;
+}
 
-        @media (max-width: 768px) {
-            .container {
-                flex-direction: column;
-            }
+/* DESKTOP */
+@media (min-width: 769px) {
+    .header-krishna {
+        display: block;
+    }
 
-            header {
-                flex-direction: column;
-                align-items: flex-start;
-                margin-bottom: 0;
-            }
+    .content-wrapper {
+        flex-direction: row;
+    }
 
-            .logo {
-                margin-bottom: 20px;
-            }
+    .left-sidebar {
+        flex: 0 0 250px;
+        width: 250px;
+    }
 
-            .left-sidebar {
-                width: 100%;
-                margin-bottom: 20px;
-            }
+    .main-content {
+        flex: 1;
+        padding: 0 20px;
+    }
 
-            .main-content {
-                order: 3;
-            }
+    .carousel {
+        max-width: 100%;
+    }
 
-            .carousel {
-                max-width: 100%;
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
-            }
+    .carousel-item {
+        flex: 0 0 400px;
+        height: 500px;
+    }
+}
 
-            .carousel-track {
-                flex-wrap: nowrap;
-                height: auto;
-            }
+/* MOBILE */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-bottom: 0;
+    }
 
-            .carousel-item {
-                min-width: 200px;
-                flex: 0 0 200px;
-                height: 350px;
-            }
+    .logo {
+        margin-bottom: 20px;
+    }
 
-            .carousel-item img {
-                height: 250px;
-                width: 250px;
-            }
+    .left-sidebar {
+        width: 100%;
+        margin-bottom: 20px;
+    }
 
-            .carousel-item .item-name {
-                font-size: 1em;
-            }
+    .main-content {
+        padding: 0;
+    }
 
-            iframe {
-                height: 400px;
-            }
-        }
+    .content-wrapper {
+        flex-direction: column;
+    }
+
+    .carousel {
+        max-width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .carousel-track {
+        flex-wrap: nowrap;
+        height: auto;
+    }
+
+    .carousel-item {
+        min-width: 200px;
+        flex: 0 0 200px;
+        height: 350px;
+    }
+
+    .carousel-item img {
+        height: 250px;
+        width: 250px;
+    }
+
+    .carousel-item .item-name {
+        font-size: 1em;
+    }
+
+    iframe {
+        height: 400px;
+    }
+}
+
     </style>
 </head>
 <body>
@@ -332,6 +352,7 @@
                 <img src="./img/patsas.jpg" alt="Krishna">
             </div>
         </header>
+        <div class="content-wrapper">
         <div class="left-sidebar">
             <ul>
                 <li><a href="#" id="langToggle">Switch to English</a></li>
@@ -446,6 +467,8 @@
             </div>
             <iframe name="contentFrame" src="about:blank"></iframe>
         </div>
+</div>
+
         <footer>
             <p>Matkojen varaukset puhelimitse: <strong>09-680 3180</strong></p>
             <p>Email: <a href="mailto:sales@intiakeskus.fi">sales@intiakeskus.fi</a></p>
