@@ -498,7 +498,7 @@ footer a:hover {
             track.style.transform = `translateX(-${currentIndex * itemWidth}px)`;
             // Ensure buttons are visible
             prevButton.style.display = currentIndex > 0 ? 'block' : 'none';
-            nextButton.style.display = currentIndex < items.length - visibleItems ? 'block' : 'none';
+            nextButton.style.display = currentIndex < items.length - (visibleItems-1) ? 'block' : 'none';
         }
 
         nextButton.addEventListener('click', () => {
