@@ -489,7 +489,7 @@ footer a:hover {
         const prevButton = document.querySelector('.prev');
         const nextButton = document.querySelector('.next');
         let currentIndex = 0;
-        const visibleItems = 3; // Show 3 items at a time on PC
+        const visibleItems = 2; // Show 3 items at a time on PC
 
         function updateCarousel() {
             const itemWidth = items[0].getBoundingClientRect().width + 20;
@@ -498,7 +498,7 @@ footer a:hover {
             track.style.transform = `translateX(-${currentIndex * itemWidth}px)`;
             // Ensure buttons are visible
             prevButton.style.display = currentIndex > 0 ? 'block' : 'none';
-            nextButton.style.display = currentIndex < items.length - (visibleItems-1) ? 'block' : 'none';
+            nextButton.style.display = currentIndex < items.length - visibleItems ? 'block' : 'none';
         }
 
         nextButton.addEventListener('click', () => {
